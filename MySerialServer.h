@@ -6,14 +6,25 @@
 #define EX4_MYSERIALSERVER_H
 
 #include "server_side.h"
+#include "unistd.h"
+#include "netinet/in.h"
+#include "MyTestClientHandler.h"
+#include "ThreadsManager.h"
 
 class MySerialServer: public server_side::Server {
 private:
-    int socket;
-
+    int socketfd;
+    int port;
+    int client_socket;
+    sockaddr_in address;
+    bool shouldStop;
+    ClientHandler& ch;
 public:
-    void open(int port, ClientHandler c);
-    void stop();
+    MySerialServer();
+    ~MySerialServer();
+    int open(int port, ClientHandler &c) override;
+    int start();
+    void stop() override;
 };
 
 

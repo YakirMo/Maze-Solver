@@ -11,8 +11,9 @@
 using namespace std;
 
 class ClientHandler {
-    virtual string HandleClient(int socket) = 0;
 
+public:
+    virtual string HandleClient(int socket) = 0;
 };
 
 
