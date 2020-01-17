@@ -12,18 +12,12 @@
 #include "ThreadsManager.h"
 
 class MySerialServer: public server_side::Server {
-private:
-    int socketfd;
-    int port;
-    int client_socket;
-    sockaddr_in address;
-    bool shouldStop;
-    ClientHandler* ch;
 public:
+    bool shouldStop;
     MySerialServer();
     ~MySerialServer();
     int open(int port, ClientHandler *c);
-    int start();
+    void start(int socketfd, sockaddr_in address, ClientHandler *c);
     void stop();
 };
 

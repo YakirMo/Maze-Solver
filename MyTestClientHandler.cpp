@@ -19,15 +19,18 @@ MyTestClientHandler::MyTestClientHandler(Solver<string, string> *s, CacheManager
 MyTestClientHandler::~MyTestClientHandler() {}
 
 void MyTestClientHandler::HandleClient(int socket) {
-    char buffer[2048] = {0};
-    string problem;
+    char buffer[1024] = {0};
+    char* problem;
     string solution;
     int valread;
     //receives data from the client
     while (true) {
-        valread = read(socket, buffer, 2048);
+        valread = read(socket, buffer, 1024);
+        while (buffer[0] == 0) {
+            valread = read(socket, buffer, 1024);
+        }
         problem = strtok(buffer, "\n");
-        if (problem.find("end")) {
+        if (strcmp(problem, "end") == 0) {
             return;
         }
         //Checks if there's a saved solution for the given problem
@@ -41,6 +44,5 @@ void MyTestClientHandler::HandleClient(int socket) {
         strcpy(cstr, solution.c_str());
         //sends the solution to the current client (which sent the problem)
         send(socket, cstr, strlen(cstr), 0);
-        //close(socket); //closing the listening socket
     }
 }
