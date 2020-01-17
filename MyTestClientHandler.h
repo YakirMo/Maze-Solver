@@ -10,15 +10,14 @@
 #include "string"
 #include "Solver.h"
 
-template <class P, class S>
 class MyTestClientHandler: public ClientHandler {
 private:
-    Solver<P, S>& solver;
-    CacheManager<P, S> cache;
+    Solver<string, string>* solver;
+    CacheManager<string, string>* cache;
 public:
-    MyTestClientHandler(P, S);
+    MyTestClientHandler(Solver<string, string>* s, CacheManager<string, string>* ch);
     ~MyTestClientHandler();
-    S HandleClient(int socket) override;
+    void HandleClient(int socket) override;
 };
 
 

@@ -18,13 +18,13 @@ private:
     int client_socket;
     sockaddr_in address;
     bool shouldStop;
-    ClientHandler& ch;
+    ClientHandler* ch;
 public:
     MySerialServer();
     ~MySerialServer();
-    int open(int port, ClientHandler &c) override;
+    int open(int port, ClientHandler *c);
     int start();
-    void stop() override;
+    void stop();
 };
 
 

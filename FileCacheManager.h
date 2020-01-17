@@ -41,8 +41,8 @@ public:
     //Insert's an object to the cache and saving it to the disk (as a file)
     ///May need changes on how to save an object (by hash?)
     void saveSolution(P key, S obj) {
-        hash<S> h;
-        string fileNameSave = h(key);
+        hash<P> h;
+        string fileNameSave = to_string(h(key));
         ofstream objToWrite(fileNameSave + " " + key + ".txt", std::ios::binary);
         if (!objToWrite) {
             throw ("couldn't open a file to write to.\n");
@@ -55,8 +55,8 @@ public:
     //Get an object from the cache, if not present there, get it from disk (as a file)
     S getSolution(P key) {
         S obj;
-        hash<S> h;
-        string fileNameLoad = h(key);
+        hash<P> h;
+        string fileNameLoad = to_string(h(key));
         //If the object is not cache, get it from disk (a file)
         if (cache.find(key) == cache.end()) {
             ifstream objToRead(fileNameLoad + " " + key + ".txt", std::ios::binary);

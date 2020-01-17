@@ -8,8 +8,9 @@
 using namespace std;
 
 
-template <class P, class S>
+template<class P, class S>
 class Solver {
+public:
     virtual S Solve(P problem) = 0;
 };
 

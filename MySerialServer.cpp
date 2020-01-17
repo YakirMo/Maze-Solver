@@ -7,7 +7,10 @@
 #include "thread"
 
 
-int MySerialServer::open(int port, ClientHandler &c) {
+MySerialServer::MySerialServer(){}
+MySerialServer::~MySerialServer(){}
+
+int MySerialServer::open(int port, ClientHandler *c) {
     int run;
     this->ch = c;
     this->shouldStop = false;
@@ -26,31 +29,42 @@ int MySerialServer::open(int port, ClientHandler &c) {
         std::cerr << "Could not bind the socket to an IP" << std::endl;
         return -2;
     }
+    if (listen(this->socketfd, 5) == -1) {
+        std::cerr << "Error during listening command" << std::endl;
+        return -3;
+    }
+    cout << "Server is now listening..." << endl;
     ThreadsManager::getThread()->serverThread = thread(&MySerialServer::start, this);
-    ThreadsManager::getThread()->serverThread.detach();
+    ThreadsManager::getThread()->serverThread.join();
+    cout<< "done" << endl;
+    close(socketfd);
     return 0;
 }
 
 ///Need to add timeout
 int MySerialServer::start() {
     while (!shouldStop) {
-        if (listen(this->socketfd, 5) == -1) {
-            std::cerr << "Error during listening command" << std::endl;
-            return -3;
-        }
-        cout << "Server is now listening..." << endl;
         // accept a client:
         client_socket = accept(this->socketfd, (struct sockaddr *) &address, (socklen_t *) &address);
+        timeval to;
+        to.tv_sec = 10;
+        setsockopt(this->socketfd, SOL_SOCKET, SO_RCVTIMEO, (char*) &to, sizeof(to));
         if (client_socket == -1) {
+            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                cout<< "No client connected - Timeout..."<<endl;
+                stop();
+                break;
+            }
             std::cerr << "Error accepting client" << std::endl;
             return -4;
         }
+
         cout << "Server Connected" << endl;
         //solve given problem
-        this->ch.HandleClient(this->socketfd);
+        this->ch->HandleClient(this->socketfd);
     }
 }
 
 void MySerialServer::stop() {
-    this->shouldStop = true;
+    shouldStop = true;
 }
