@@ -9,32 +9,33 @@
 #include "Isearcher.h"
 #include "queue"
 #include "Compare.h"
+#include "iostream"
 
 using namespace std;
 
-template <class S>
+template<class S>
 class Search : public Isearcher<S> {
 private:
-    priority_queue<State<Location*>*, vector<State<Location*>*>, Compare> priorQ;
+    priority_queue<State<Location *> *, vector<State<Location *> *>, Compare> priorQ;
     int checkedNodes = 0;
 protected:
 
-    void addToQ(State<Location*> *state) {
+    void addToQ(State<Location *> *state) {
         this->priorQ.push(state);
     }
 
-    State<Location*> *popQ() {
+    State<Location *> *popQ() {
         this->checkedNodes += 1;
-        State<Location*>* state = priorQ.top();
+        State<Location *> *state = priorQ.top();
         this->priorQ.pop();
         return state;
     }
 
-    void updateQ(State<Location*>* state) {
+    void updateQ(State<Location *> *state) {
         int i;
-        State<Location*> *curr1stElement;
-        vector<State<Location*>*> removed;
-        while(!this->priorQ.empty()) {
+        State<Location *> *curr1stElement;
+        vector<State<Location *> *> removed;
+        while (!this->priorQ.empty()) {
             curr1stElement = this->priorQ.top();
             if (curr1stElement->equal(*state)) {
                 this->priorQ.pop();
@@ -49,11 +50,11 @@ protected:
         }
     }
 
-    bool inQ(State<Location*> *state) {
+    bool inQ(State<Location *> *state) {
         int i;
-        bool inQ  = false;
-        vector<State<Location*>*> removed;
-        State<Location*> *curr1stElement;
+        bool inQ = false;
+        vector<State<Location *> *> removed;
+        State<Location *> *curr1stElement;
         while (!this->priorQ.empty()) {
             curr1stElement = this->priorQ.top();
             if (curr1stElement->equal(*state)) {
@@ -70,22 +71,32 @@ protected:
         return inQ;
     }
 
-    string getBackTrack(Isearchable<Location*> *problem) {
+    string getBackTrack(Isearchable<Location *> *problem) {
         double x, y;
+        string path;
         queue<string> paths;
-        State<Location*> *successor = problem->getGoal();
+        State<Location *> *successor = problem->getGoal();
         while (successor != problem->getInitState()) {
             paths.push(problem->direction(successor));
             successor = successor->getLastState();
         }
-        string path = to_string(getCheckedNodes()) + "\n";
-        ///////////////////
+        path = to_string(getCheckedNodes()) + "\n";
+        while(!paths.empty()) {
+            path.append(paths.front());
+            paths.pop();
+            if(paths.size() > 0) {
+                path.append(", ");
+            }
+        }
+        cout<< path << endl;
+        cout<< getCheckedNodes() <<endl;
+        return path;
     }
 
 public:
 
     void raiseCheckedNodes() {
-        this->checkedNodes +=1;
+        this->checkedNodes += 1;
     }
 
     int QSize() {
@@ -96,7 +107,7 @@ public:
         return this->checkedNodes;
     }
 
-    priority_queue<State<Location*>*, vector<State<Location*>*>, Compare> getQ() {
+    priority_queue<State<Location *> *, vector<State<Location *> *>, Compare> getQ() {
         return this->priorQ;
     }
 };
