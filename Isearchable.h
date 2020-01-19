@@ -18,7 +18,7 @@ public:
     virtual State<P>* getGoal() = 0;
     virtual State<P>* getInitState() = 0;
     virtual string direction(State<P>* direct) = 0;
-    virtual queue<IState<P>*> getAllStates(State<P>* stat) = 0;
+    virtual queue<State<P>*> getAllStates(State<P>* stat) = 0;
 
 };
 

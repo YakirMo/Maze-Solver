@@ -5,8 +5,19 @@
 #ifndef EX4_MYCLIENTHANDLER_H
 #define EX4_MYCLIENTHANDLER_H
 
+#include "ClientHandler.h"
+#include "Isearchable.h"
+#include "Location.h"
+#include "Solver.h"
+#include "CacheManager.h"
 
-class MyClientHandler {
+
+class MyClientHandler : public ClientHandler {
+public:
+    Solver<Isearchable<Location*>*, string>* solver;
+    CacheManager<string, string>* cacheManager;
+    MyClientHandler(Solver<Isearchable<Location*>*, string>* solv, CacheManager<string, string>* cache);
+    void HandleClient(int socket);
 
 };
 
