@@ -13,7 +13,7 @@ using namespace std;
 class Compare {
 public:
     bool operator()(State<Location*> *state1, State<Location*> *state2) {
-        return state1->pathCost > state2->pathCost;
+        return state1->getPathCost() > state2->getPathCost();
     }
 };
 

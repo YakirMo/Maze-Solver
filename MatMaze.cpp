@@ -24,13 +24,13 @@ string MatMaze::direction(State<Location *> *direct) {
     double xLoc = direct->getCurrState()->location.first;
     double yLoc = direct->getCurrState()->location.second;
     if (cameFromX == (xLoc + 1)) {
-        dir = "Up (" + to_string(direct->pathCost) + ")";
+        dir = "Up (" + to_string(direct->getPathCost()) + ")";
     } else if (cameFromX == (xLoc - 1)) {
-        dir = "Down (" + to_string(direct->pathCost) + ")";
+        dir = "Down (" + to_string(direct->getPathCost()) + ")";
     } else if (cameFromY == (yLoc - 1)) {
-        dir = "Right (" + to_string(direct->pathCost) + ")";
+        dir = "Right (" + to_string(direct->getPathCost()) + ")";
     } else if (cameFromY == (yLoc + 1)) {
-        dir = "Left (" + to_string(direct->pathCost) + ")";
+        dir = "Left (" + to_string(direct->getPathCost()) + ")";
     }
     return dir;
 }
