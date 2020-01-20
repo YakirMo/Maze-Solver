@@ -18,6 +18,7 @@ public:
         searcher = search;
     }
     string solve(Isearchable<S> *prob) {
+        ///add new searcher
         return searcher->search(prob);
     }
 };
