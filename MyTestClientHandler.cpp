@@ -5,7 +5,6 @@
 #include <sys/socket.h>
 #include "unistd.h"
 #include "MyTestClientHandler.h"
-#include "FileCacheManager.h"
 #include "cstring"
 
 using namespace std;

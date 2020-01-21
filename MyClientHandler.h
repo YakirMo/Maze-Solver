@@ -14,9 +14,9 @@
 
 class MyClientHandler : public ClientHandler {
 public:
+    MyClientHandler(Solver<Isearchable<Location*>*, string>* solv, CacheManager<string, string>* cache);
     Solver<Isearchable<Location*>*, string>* solver;
     CacheManager<string, string>* cacheManager;
-    MyClientHandler(Solver<Isearchable<Location*>*, string>* solv, CacheManager<string, string>* cache);
     void HandleClient(int socket);
 
 };

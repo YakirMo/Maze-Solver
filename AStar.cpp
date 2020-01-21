@@ -38,7 +38,7 @@ string AStar::search(Isearchable<Location *> *searchable) {
             }
         }
     }
-    return "Failed Solving"
+    return "Failed Solving";
 }
 
 bool AStar::isInOpenQ(State<Location *> *state) {

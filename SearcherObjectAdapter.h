@@ -14,12 +14,12 @@ template <class S>
 class SearcherObjectAdapter : public Solver<Isearchable<S>*, string> {
 public:
     Isearcher<S> *searcher;
-    SearcherObjectAdapter(Isearcher<S> *search) {
+    explicit SearcherObjectAdapter(Isearcher<S> *search) {
         searcher = search;
     }
     string solve(Isearchable<S> *prob) {
-        ///add new searcher
-        return searcher->search(prob);
+        Isearcher<S> solver = new SearcherObjectAdapter;
+        return solver->search(prob);
     }
 };
 

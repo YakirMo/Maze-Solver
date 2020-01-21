@@ -35,10 +35,10 @@ string MatMaze::direction(State<Location *> *direct) {
     return dir;
 }
 
-queue<State<Location *> *> MatMaze::getAllStates(State<Location> *stat) {
+queue<State<Location *> *> MatMaze::getAllStates(State<Location*> *stat) {
     queue<State<Location *> *> allStates;
-    double stateX = stat->getCurrState().location.first;
-    double stateY = stat->getCurrState().location.second;
+    double stateX = stat->getCurrState()->location.first;
+    double stateY = stat->getCurrState()->location.second;
     // Up state
     if (stateX != 0) {
         if (this->matMaze[stateX - 1][stateY]->getCost() != -1) {
@@ -106,11 +106,14 @@ MatMaze::MatMaze(vector<string> vec) {
         }
         cost = stod(helper);
         helper.clear();
-        auto state2 = new State<Location*>(new Location(i, colss), cost);
+        auto state2 = new State<Location *>(new Location(i, colss), cost);
         singleRow.emplace_back(state2);
         this->matMaze.emplace_back(singleRow);
         singleRow.clear();
-        this->cols = colss +1;
+        this->cols = colss + 1;
         colss = 0;
     }
+    startLoc = stringToState(vec[vecSize]);
+    startLoc->setPathCost(startLoc->getCost());
+    endLoc = stringToState(vec[vecSize+1]);
 }
