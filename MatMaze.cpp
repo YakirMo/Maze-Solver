@@ -40,9 +40,15 @@ queue<State<Location *> *> MatMaze::getAllStates(State<Location*> *stat) {
     double stateX = stat->getCurrState()->location.first;
     double stateY = stat->getCurrState()->location.second;
     // Up state
-    if (stateX != 0) {
+    if (stateX > 0) {
         if (this->matMaze[stateX - 1][stateY]->getCost() != -1) {
             allStates.push(this->matMaze[stateX - 1][stateY]);
+        }
+    }
+    // Right state
+    if (stateY != cols - 1) {
+        if (this->matMaze[stateX][stateY + 1]->getCost() != -1) {
+            allStates.push(this->matMaze[stateX][stateY + 1]);
         }
     }
     // Down state
@@ -52,15 +58,9 @@ queue<State<Location *> *> MatMaze::getAllStates(State<Location*> *stat) {
         }
     }
     // Left state
-    if (stateY != 0) {
+    if (stateY > 0) {
         if (this->matMaze[stateX][stateY - 1]->getCost() != -1) {
             allStates.push(this->matMaze[stateX][stateY - 1]);
-        }
-    }
-    // Right state
-    if (stateY != cols - 1) {
-        if (this->matMaze[stateX][stateY + 1]->getCost() != -1) {
-            allStates.push(this->matMaze[stateX][stateY + 1]);
         }
     }
     return allStates;

@@ -10,11 +10,10 @@
 
 class DFS : public Search<Location*> {
 private:
-    vector<State<Location*>*> visitedNodes;
+    //vector<State<Location*>*> visitedNodes;
 public:
     string search(Isearchable<Location*> *searchable);
-    bool alreadyVisited(State<Location*>* state);
-    vector<State<Location*>*> getVisitedNodes();
+    bool alreadyVisited(State<Location*>* state, vector<State<Location*>*> visitedNodes);
 };
 
 

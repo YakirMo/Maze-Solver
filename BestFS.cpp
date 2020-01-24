@@ -16,6 +16,7 @@ string BestFS::search(Isearchable<Location *> *searchable) {
         closedQ.emplace(popped);
         val += 1;
         if (popped->equal(*(searchable->getGoal()))) {
+            this->checkedNodes = val;
             return getBackTrack(searchable);
         }
         queue<State<Location*>*> possibleMoves = searchable->getAllStates(popped);

@@ -18,8 +18,8 @@ template<class S>
 class Search : public Isearcher<S> {
 private:
     priority_queue<State<Location *> *, vector<State<Location *> *>, Compare> priorQ;
-    int checkedNodes = 0;
 protected:
+    int checkedNodes = 0;
     virtual string search(Isearchable<S>* problem) = 0;
 
     void addToQ(State<Location *> *state) {
@@ -82,7 +82,7 @@ protected:
             paths.emplace(problem->direction(successor));
             successor = successor->getLastState();
         }
-        //backTrack = to_string(getCheckedNodes()) + "\n";
+        backTrack = to_string(getCheckedNodes()) + '\n';
         while(!paths.empty()) {
             backTrack.append(paths.top());
             paths.pop();
@@ -90,8 +90,8 @@ protected:
                 backTrack.append(", ");
             }
         }
-        cout<< backTrack << endl;
-        cout<< "Number of vertexes visited:"  + getCheckedNodes() <<endl;
+       // cout<< backTrack << endl;
+        //cout<< "Number of vertexes visited:"  + getCheckedNodes() <<endl;
         return backTrack;
     }
 

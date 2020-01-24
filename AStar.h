@@ -11,16 +11,14 @@
 
 class AStar : public Search<Location*>{
 private:
-    queue<State<Location*>*> adjacent;
-    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> openQ;
-    vector<State<Location*>*> closedQ;
+
 public:
     string search(Isearchable<Location *> *searchable);
-    bool isInOpenQ(State<Location*>* state);
-    bool isInClosedQ(State<Location*>* state);
-    void updateQ();
+    bool isInOpenQ(State<Location*>* state,  priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> priorQ);
+    bool isInClosedQ(State<Location*>* state,  vector<State<Location*>*> closed);
+    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> updateQ
+    (priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> priorQ);
     double calcHeur(State<Location*>* state1, State<Location*>* state2);
-    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> copyQ();
 };
 
 

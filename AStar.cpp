@@ -6,72 +6,74 @@
 
 string AStar::search(Isearchable<Location *> *searchable) {
     int val = 0;
+    queue<State<Location*>*> adjacent;
+    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> openQ;
+    vector<State<Location*>*> closedQ;
     State<Location*>* state;
     State<Location*>* adjacentTo;
-    this->openQ.emplace(searchable->getInitState());
-    while (!this->openQ.empty()) {
-        state = this->openQ.top();
-        this->openQ.pop();
-        this->closedQ.emplace_back(state);
+    openQ.emplace(searchable->getInitState());
+    while (!openQ.empty()) {
+        state = openQ.top();
+        openQ.pop();
+        closedQ.emplace_back(state);
         val += 1;
         if (state->equal(*(searchable->getGoal()))) {
-            raiseCheckedNodes();
+            this->checkedNodes = val;
             return getBackTrack(searchable);
         }
-        this->adjacent = searchable->getAllStates(state);
-        while (!this->adjacent.empty()) {
-            adjacentTo = this->adjacent.front();
-            this->adjacent.pop();
-            if ((!isInOpenQ(adjacentTo) && (!isInClosedQ(adjacentTo)))) {
+        adjacent = searchable->getAllStates(state);
+        while (!adjacent.empty()) {
+            adjacentTo = adjacent.front();
+            adjacent.pop();
+            if ((!isInOpenQ(adjacentTo, openQ) && (!isInClosedQ(adjacentTo, closedQ)))) {
                 adjacentTo->setLastState(state);
                 adjacentTo->addCost(state->getPathCost());
                 adjacentTo->setHeur(calcHeur(adjacentTo, searchable->getGoal()));
-                this->openQ.emplace(adjacentTo);
+                openQ.emplace(adjacentTo);
                 continue;
-            } else if (isInClosedQ(adjacentTo)) {
+            } else if (isInClosedQ(adjacentTo, closedQ)) {
                 continue;
             } else if (adjacentTo->getPathCost() > (state->getPathCost() + adjacentTo->getCost())) {
                 adjacentTo->setLastState(state);
                 adjacentTo->setPathCost(adjacentTo->getCost() + state->getPathCost());
                 adjacentTo->setHeur(calcHeur(adjacentTo, searchable->getGoal()));
-                updateQ();
+                updateQ(openQ);
             }
         }
     }
     return "Failed Solving";
 }
 
-bool AStar::isInOpenQ(State<Location *> *state) {
-    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> openQCopy (this->openQ);
+bool AStar::isInOpenQ(State<Location *> *state,  priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> priorQ) {
     //openQCopy = this->openQ;
-    while (!openQCopy.empty()) {
-        if (state->equal(*(openQCopy.top()))) {
+    while (!priorQ.empty()) {
+        if (state->equal(*(priorQ.top()))) {
             return true;
         }
-        openQCopy.pop();
+        priorQ.pop();
     }
     return false;
 }
 
-bool AStar::isInClosedQ(State<Location *> *state) {
+bool AStar::isInClosedQ(State<Location *> *state, vector<State<Location*>*> closed) {
     int i;
-    vector<State<Location*>*> closedQCopy (this->closedQ);
     //closedQCopy = this->closedQ;
-    for (i = 0; i < closedQCopy.size(); i++) {
-        if (state->equal(*(closedQCopy[i]))) {
+    for (i = 0; i < closed.size(); i++) {
+        if (state->equal(*(closed[i]))) {
             return true;
         }
     }
     return false;
 }
 
-void AStar::updateQ() {
-    priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> openQCopy;
-    while (!this->openQ.empty()) {
-        openQCopy.emplace(this->openQ.top());
-        this->openQ.pop();
+priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> AStar::updateQ
+        (priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> priorQ) {
+priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> updatedQ;
+    while (!priorQ.empty()) {
+        updatedQ.emplace(priorQ.top());
+        priorQ.pop();
     }
-    this->openQ = openQCopy;
+    return updatedQ;
 }
 
 double AStar::calcHeur(State<Location *> *state1, State<Location *> *state2) {

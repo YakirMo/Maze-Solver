@@ -41,7 +41,7 @@ void MyClientHandler::HandleClient(int socket) {
                     oneRow.clear();
                     continue;
                 }
-              //  cout<<oneRow<<endl;
+                //cout<<oneRow<<endl;
                 matMazeRow.append(oneRow);
                 vec.emplace_back(oneRow);
                 oneRow.clear();

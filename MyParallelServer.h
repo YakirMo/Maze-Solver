@@ -32,7 +32,7 @@ namespace bootPar {
     public:
         void mainPar(int port) {
             server_side::Server* serv = new MyParallelServer();
-            Isearcher<Location*>* searcher = new BFS();
+            Isearcher<Location*>* searcher = new AStar();
             Solver<Isearchable<Location*>*, string>* solver = new SearcherObjectAdapter<Location*>(searcher);
             CacheManager<string, string>* cache = new FileCacheManager<string, string>(50);
             ClientHandler* ch = new MyClientHandler(solver, cache);
