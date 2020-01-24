@@ -11,7 +11,7 @@ string BestFS::search(Isearchable<Location *> *searchable) {
     State<Location*>* popped;
     unordered_set<State<Location*>*> closedQ;
     addToQ(searchable->getInitState());
-    while (QSize() != 0) {
+    while (QSize() > 0) {
         popped = popQ();
         closedQ.emplace(popped);
         val += 1;
@@ -25,6 +25,7 @@ string BestFS::search(Isearchable<Location *> *searchable) {
             if (closedQ.find(state) == closedQ.end() && (!inQ(state))) {
                 state->setPathCost(popped->getPathCost() + state->getCost());
                 state->setLastState(popped);
+                addToQ(state);
             } else if (state->getPathCost() > (popped->getPathCost() + state->getCost())) {
                 state->setPathCost(popped->getPathCost() + state->getCost());
                 state->setLastState(popped);

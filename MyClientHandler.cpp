@@ -21,19 +21,27 @@ void MyClientHandler::HandleClient(int socket) {
     mtx.lock();
     int i, sentMsg, valread;
     bool done = false;
-    char buffer[2048] = {0};
-    int size = (sizeof(buffer)/ sizeof(buffer[0]));
+    char buffer[4096] = {0};
     string oneRow, matMazeRow, sol;
     vector<string> vec;
     while (!done) {
-        valread = read(socket, buffer, 2048);
-        for (i =0; i < size; i++) {
+        valread = read(socket, buffer, 4096);
+        for (i =0; i < valread; i++) {
             if (oneRow == "end") {
                 done = true;
                 break;
             }
-            if (buffer[i] == '\n') {
+          //  cout<< buffer[i] <<endl;
+            if (buffer[i] == '\r' || buffer[i] == '\n') {
+                if (buffer[i] == '\r') {
+                    i++;
+                }
                 oneRow.append("\n");
+                if (oneRow == "\n") {
+                    oneRow.clear();
+                    continue;
+                }
+              //  cout<<oneRow<<endl;
                 matMazeRow.append(oneRow);
                 vec.emplace_back(oneRow);
                 oneRow.clear();

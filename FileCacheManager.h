@@ -26,7 +26,19 @@ class FileCacheManager : public CacheManager<P, S> {
 public:
 
     bool isThereSolution(P problem) {
-        return this->cache.find(problem) != this->cache.end();
+        hash<P> h;
+        P prob = to_string(h(problem));
+         if (this->cache.find(problem) != this->cache.end()) {
+             return true;
+         } else {
+             ifstream objToRead(prob, ios::out);
+             if (!objToRead) {
+                 objToRead.close();
+                 return false;
+             }
+             objToRead.close();
+                 return true;
+             }
     }
     // S getSolution(P problem) = 0;
     //void saveSolution(S solution) = 0;
@@ -43,28 +55,33 @@ public:
     void saveSolution(P key, S obj) {
         hash<P> h;
         string fileNameSave = to_string(h(key));
-        ofstream objToWrite(fileNameSave + " " + key + ".txt", std::ios::binary);
+        ofstream objToWrite(fileNameSave, ios::out);
         if (!objToWrite) {
             throw ("couldn't open a file to write to.\n");
         }
-        objToWrite.write((char *) &obj, sizeof(obj));
+        objToWrite << obj;
         objToWrite.close();
         //check if key is in cache, if not, insert it
         this->refreshCache(key, obj);
     }
     //Get an object from the cache, if not present there, get it from disk (as a file)
-    S getSolution(P key) {
-        S obj;
+    string getSolution(P key) {
+        string obj, toAppend;
         hash<P> h;
         string fileNameLoad = to_string(h(key));
         //If the object is not cache, get it from disk (a file)
         if (cache.find(key) == cache.end()) {
-            ifstream objToRead(fileNameLoad + " " + key + ".txt", std::ios::binary);
+            ifstream objToRead(fileNameLoad , ios::in | ios::binary);
             if (!objToRead) {
                 throw ("couldn't find the object to load.\n");
             }
-            objToRead.read((char *) &obj, sizeof(obj));
+            //objToRead.read((char *) &obj, sizeof(obj));
+            while (!objToRead.eof()) {
+                objToRead >> toAppend;
+                obj.append(toAppend + " ");
+            }
             this->refreshKey(key);
+            objToRead.close();
             return obj;
             //else - the object is in cache - return it (the check happens at the beginning of the method)
         } else {

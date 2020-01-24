@@ -9,10 +9,10 @@ string DFS::search(Isearchable<Location *> *searchable) {
     State<Location *> *currNode;
     State<Location *> *state;
     //vector<State<Location*>*> visitedNodes;
-    queue<State<Location *> *> qU;
+    stack<State<Location *> *> qU;
     qU.emplace(searchable->getInitState());
     while (!qU.empty()) {
-        currNode = qU.front();
+        currNode = qU.top();
         qU.pop();
         val += 1;
         if (!alreadyVisited(currNode)) {

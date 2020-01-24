@@ -8,6 +8,7 @@
 #include "Isearchable.h"
 #include "Isearcher.h"
 #include "queue"
+#include "stack"
 #include "Compare.h"
 #include "iostream"
 
@@ -19,6 +20,7 @@ private:
     priority_queue<State<Location *> *, vector<State<Location *> *>, Compare> priorQ;
     int checkedNodes = 0;
 protected:
+    virtual string search(Isearchable<S>* problem) = 0;
 
     void addToQ(State<Location *> *state) {
         this->priorQ.push(state);
@@ -73,24 +75,24 @@ protected:
 
     string getBackTrack(Isearchable<Location *> *problem) {
         double x, y;
-        string path;
-        queue<string> paths;
+        string backTrack;
+        stack<string> paths;
         State<Location *> *successor = problem->getGoal();
         while (successor != problem->getInitState()) {
-            paths.push(problem->direction(successor));
+            paths.emplace(problem->direction(successor));
             successor = successor->getLastState();
         }
-        path = to_string(getCheckedNodes()) + "\n";
+        //backTrack = to_string(getCheckedNodes()) + "\n";
         while(!paths.empty()) {
-            path.append(paths.front());
+            backTrack.append(paths.top());
             paths.pop();
             if(paths.size() > 0) {
-                path.append(", ");
+                backTrack.append(", ");
             }
         }
-        cout<< path << endl;
-        cout<< getCheckedNodes() <<endl;
-        return path;
+        cout<< backTrack << endl;
+        cout<< "Number of vertexes visited:"  + getCheckedNodes() <<endl;
+        return backTrack;
     }
 
 public:

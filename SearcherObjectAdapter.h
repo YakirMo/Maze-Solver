@@ -9,6 +9,8 @@
 #include "Isearchable.h"
 #include "Isearcher.h"
 #include "string"
+#include "Location.h"
+#include "Search.h"
 
 template <class S>
 class SearcherObjectAdapter : public Solver<Isearchable<S>*, string> {
@@ -17,8 +19,8 @@ public:
     explicit SearcherObjectAdapter(Isearcher<S> *search) {
         searcher = search;
     }
-    string solve(Isearchable<S> *prob) {
-        Isearcher<S> solver = new SearcherObjectAdapter;
+    string Solve(Isearchable<S> *prob) {
+        auto* solver =  searcher;
         return solver->search(prob);
     }
 };

@@ -6,6 +6,7 @@
 #define EX4_THREADSMANAGER_H
 
 #include "thread"
+#include "queue"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ public:
     static ThreadsManager *getThread();
     thread serverThread;
     thread clientThread;
+    queue<pthread_t> clients;
 };
 
 

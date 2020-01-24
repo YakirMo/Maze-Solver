@@ -75,7 +75,7 @@ State<Location *> *MatMaze::stringToState(string str) {
         if (str[i] == ',') {
             xLoc = helper;
             helper.clear();
-        } else if (str[i] == ' ') {
+        } else if (str[i] != ' ') {
             helper.append(1, str[i]);
         }
     }
