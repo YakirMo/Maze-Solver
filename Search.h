@@ -90,16 +90,10 @@ protected:
                 backTrack.append(", ");
             }
         }
-       // cout<< backTrack << endl;
-        //cout<< "Number of vertexes visited:"  + getCheckedNodes() <<endl;
         return backTrack;
     }
 
 public:
-
-    void raiseCheckedNodes() {
-        this->checkedNodes += 1;
-    }
 
     int QSize() {
         return this->priorQ.size();

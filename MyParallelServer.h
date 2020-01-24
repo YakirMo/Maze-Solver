@@ -24,7 +24,6 @@ public:
     void start(int socketfd, sockaddr_in address, ClientHandler *c);
     void stop();
     bool shouldStop;
-    //void* threadClient(void *client);
 };
 
 namespace bootPar {

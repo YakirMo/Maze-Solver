@@ -45,7 +45,6 @@ string AStar::search(Isearchable<Location *> *searchable) {
 }
 
 bool AStar::isInOpenQ(State<Location *> *state,  priority_queue<State<Location*>*, vector<State<Location*>*>, HeurCompare> priorQ) {
-    //openQCopy = this->openQ;
     while (!priorQ.empty()) {
         if (state->equal(*(priorQ.top()))) {
             return true;
@@ -57,7 +56,6 @@ bool AStar::isInOpenQ(State<Location *> *state,  priority_queue<State<Location*>
 
 bool AStar::isInClosedQ(State<Location *> *state, vector<State<Location*>*> closed) {
     int i;
-    //closedQCopy = this->closedQ;
     for (i = 0; i < closed.size(); i++) {
         if (state->equal(*(closed[i]))) {
             return true;
@@ -84,10 +82,3 @@ double AStar::calcHeur(State<Location *> *state1, State<Location *> *state2) {
     sum = pathCost + heur;
     return sum;
 }
-
-/*
-priority_queue<State<Location *> *, vector<State<Location *> *>, HeurCompare> AStar::copyQ() {
-    priority_queue<State<Location *> *, vector<State<Location *> *>, HeurCompare> copyQ;
-    while (this->)
-}
-*/

@@ -34,10 +34,6 @@ public:
         return this->pathCost;
     }
 
-    double setCost(double d) {
-        this->cost = d;
-    }
-
     bool equal (State<T> stat) {
         return this->currState->equals(stat.getCurrState());
     }

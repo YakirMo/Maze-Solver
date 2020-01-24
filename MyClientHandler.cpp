@@ -31,7 +31,6 @@ void MyClientHandler::HandleClient(int socket) {
                 done = true;
                 break;
             }
-          //  cout<< buffer[i] <<endl;
             if (buffer[i] == '\r' || buffer[i] == '\n') {
                 if (buffer[i] == '\r') {
                     i++;
@@ -41,7 +40,6 @@ void MyClientHandler::HandleClient(int socket) {
                     oneRow.clear();
                     continue;
                 }
-                //cout<<oneRow<<endl;
                 matMazeRow.append(oneRow);
                 vec.emplace_back(oneRow);
                 oneRow.clear();

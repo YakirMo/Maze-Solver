@@ -9,7 +9,6 @@
 #include "string"
 
 using namespace std;
-//using stringReverser = Solver<string, string>;
 
 class StringReverser : public Solver<string, string>{
      string Solve(string problem);
