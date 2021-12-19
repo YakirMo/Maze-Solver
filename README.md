@@ -1,7 +1,7 @@
 # Maze Solver
 
 This program is solving given matrixes by finding the most 'cost-effective' path,
-from A given starting point to A given endpoint.
+from a given starting point to a given endpoint.
 
 The program works by those steps:
 
