@@ -23,5 +23,5 @@ The program works by those steps:
 // More about the design patterns
 Solver - an interface or type representing objects that solves problems. In our case, the problems are 'Searchables', and the 'Solvers' are 'Searchers'.
 Searchables - the given problems. They are called Searchables because those problems are defined as Searching problems.
-Searchers - the algorithms that solve the given problems (or 'Searchables'). They are called Searchers because they solve problems by Searching (in our case - the most 'profitable' path).
+Searchers - the algorithms that solves the given problems (or 'Searchables'). They are called Searchers because they solve problems by Searching (in our case - the most 'profitable' path).
 Search - an Object-Adapter class. This design pattern is used in order to seperate between a Solver, that might solve a variety of problems, and A Searcher, which specifically solves 'Searchable' problems.
