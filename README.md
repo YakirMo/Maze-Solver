@@ -1,4 +1,4 @@
-# Maze Solver
+# Maze Solver (Implementation of searching algorithms)
 
 This program is solving given matrixes by finding the most 'cost-effective' path,
 from a given starting point to a given endpoint.
